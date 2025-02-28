@@ -3,7 +3,9 @@
     <div class="info">
       <span class="level">Level: {{ gameStore.currentLevel }}</span>
       <span class="score">Score: {{ gameStore.score }}</span>
-      <span class="next-level">Next: {{ remainingPoints }}</span>
+      <span class="next-level">
+        Next: {{ remainingPoints }} points
+      </span>
     </div>
   </div>
 </template>
@@ -15,8 +17,11 @@ import { useGameStore } from '../stores/gameStore';
 const gameStore = useGameStore();
 
 const remainingPoints = computed(() => {
-  const requiredScore = gameStore.requiredScorePerLevel[gameStore.currentLevel - 1];
-  return requiredScore - gameStore.progressToNextLevel;
+  const currentLevelData = gameStore.currentLevelData;
+  if (currentLevelData) {
+    return currentLevelData.requiredScore - gameStore.progressToNextLevel;
+  }
+  return 0; // Fallback value if currentLevelData is undefined
 });
 </script>
 
