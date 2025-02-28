@@ -1,5 +1,7 @@
 <template>
-  <div :class="['target', `size-${currentLevelSize}`]"></div>
+  <div :class="['target', `size-${currentLevelSize}`]">
+    <h1>TTE</h1>
+  </div>
 </template>
   
 <script setup>
@@ -16,6 +18,10 @@ const currentLevelSize = computed(() => gameStore.currentLevelData.size);
   background-color: white;
   border-radius: 50%;
   animation: pop-in 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55), glow 1.5s infinite alternate;
+  color: aquamarine;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .size-100 {

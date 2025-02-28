@@ -1,15 +1,14 @@
 <template>
-  <House ref="house" style="position: absolute; top: 40px; left: 0;" />
+  <House style="position: absolute; top: 40px; left: 0;" />
   <canvas ref="canvas" :style="{ backgroundImage: `url(${sceneUrl})` }"></canvas>
   <Target
     v-for="(target, index) in gameStore.targets"
     :key="index"
-    :class="{ hit: target.isHit }"
-    :style="{ top: target.position.y + '%', left: target.position.x + '%', transform: target.isHit ? 'rotate(360deg)' : 'none' }"
+    :style="{ top: target.position.y + '%', left: target.position.x + '%' }"
     @click="handleTargetHit(index)"
   />
 </template>
-
+  
 <script setup>
 import { ref, onMounted, watch, onUnmounted, computed } from 'vue';
 import { useGameStore } from '../stores/gameStore';
@@ -18,9 +17,6 @@ import House from '../components/ui/House.vue';
 
 const gameStore = useGameStore();
 let targetInterval = null;
-
-const houseRef = ref(null);
-const canvasRef = ref(null);
 
 const sceneUrl = computed(() => {
   const url = new URL(`../assets/scenes/${gameStore.currentLevelData.scene}`, import.meta.url).href;
@@ -39,30 +35,8 @@ const spawnTarget = () => {
 };
 
 const handleTargetHit = (index) => {
-  const target = gameStore.targets[index];
-  target.isHit = true;
-
-  // Ensure the house and canvas elements are available
-  if (!houseRef.value || !canvasRef.value) return;
-
-  const houseElement = houseRef.value;
-  const houseRect = houseElement.getBoundingClientRect();
-  const canvasElement = canvasRef.value;
-  const canvasRect = canvasElement.getBoundingClientRect();
-
-  const targetElement = canvasElement.querySelectorAll('.target')[index];
-  if (!targetElement) return;
-  const targetRect = targetElement.getBoundingClientRect();
-
-  const deltaX = houseRect.left - targetRect.left;
-  const deltaY = houseRect.top - targetRect.top;
-
-  target.position.x = ((houseRect.left - canvasRect.left) / canvasRect.width) * 100;
-  target.position.y = ((houseRect.top - canvasRect.top) / canvasRect.height) * 100;
-
-  setTimeout(() => {
-    gameStore.targets.splice(index, 1);
-  }, 1000); // Override current target's despawn time to 1 second after hit
+  gameStore.targets.splice(index, 1);
+  gameStore.incrementScore(1);
 };
 
 const setupLevel = () => {
@@ -96,9 +70,5 @@ canvas {
 }
 .target {
   position: absolute;
-  transition: transform 1s linear, top 1s linear, left 1s linear;
-}
-.target.hit {
-  transform: rotate(360deg);
 }
 </style>
