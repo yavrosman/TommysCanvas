@@ -6,7 +6,7 @@ export const useGameStore = defineStore('game', {
     currentLevel: 1,
     score: 0,
     progressToNextLevel: 0,
-    requiredScorePerLevel: [10, 20, 30], // Example thresholds per level
+    requiredScorePerLevel: [10, 20, 30],
   }),
   actions: {
     incrementScore(points) {
