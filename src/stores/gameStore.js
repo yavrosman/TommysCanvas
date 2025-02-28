@@ -10,7 +10,6 @@ export const useGameStore = defineStore('game', {
       { level: 1, requiredScore: 10, targetSpawnInterval: 2000 },
       { level: 2, requiredScore: 20, targetSpawnInterval: 1500 },
       { level: 3, requiredScore: 30, targetSpawnInterval: 1200 },
-      // Add more levels/scenes as needed
     ],
   }),
   getters: {
