@@ -1,8 +1,10 @@
 <template>
   <div class="level-display">
-    <p class="level">Level: {{ gameStore.currentLevel }}</p>
-    <p class="score">Score: {{ gameStore.score }}</p>
-    <p class="next-level">Next Level In: {{ remainingPoints }} points</p>
+    <div class="info">
+      <span class="level">Level: {{ gameStore.currentLevel }}</span>
+      <span class="score">Score: {{ gameStore.score }}</span>
+      <span class="next-level">Next: {{ remainingPoints }}</span>
+    </div>
   </div>
 </template>
 
@@ -21,37 +23,40 @@ const remainingPoints = computed(() => {
 <style scoped>
 .level-display {
   position: absolute;
-  top: 10px;
-  left: 50%;
-  transform: translateX(-50%);
-  padding: 15px 25px;
-  background-color: rgba(255, 255, 255, 0.8);
-  border: 2px solid #ffcc00;
-  border-radius: 20px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  text-align: center;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: rgba(255, 255, 255, 0.6); /* Light opacity */
+  backdrop-filter: blur(5px);
+  padding: 8px 0;
+  display: flex;
+  justify-content: center;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   font-family: 'Comic Sans MS', cursive, sans-serif;
   z-index: 1000;
 }
 
-.level-display p {
-  margin: 5px 0;
-  font-size: 1.2rem;
-  color: #333;
+.info {
+  display: flex;
+  justify-content: space-around;
+  width: 90%;
+  max-width: 500px;
 }
 
-.level-display .level {
+.info span {
+  font-size: 1rem;
   font-weight: bold;
+}
+
+.level {
   color: #ff6600;
 }
 
-.level-display .score {
-  font-weight: bold;
-  color: #0066ff;
+.score {
+  color: #0099ff;
 }
 
-.level-display .next-level {
-  font-weight: bold;
-  color: #009933;
+.next-level {
+  color: #33cc33;
 }
 </style>
