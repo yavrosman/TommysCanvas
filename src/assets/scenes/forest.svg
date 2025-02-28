@@ -1,0 +1,95 @@
+<svg width="100%" height="100%" viewBox="0 0 800 600" xmlns="http://www.w3.org/2000/svg">
+  <!-- Sky Gradient -->
+  <defs>
+    <linearGradient id="skyGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#87CEEB;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#FFD700;stop-opacity:1" />
+    </linearGradient>
+    <!-- Fog Gradient -->
+    <linearGradient id="fogGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:rgba(255,255,255,0);stop-opacity:0" />
+      <stop offset="50%" style="stop-color:rgba(255,255,255,0.3);stop-opacity:0.3" />
+      <stop offset="100%" style="stop-color:rgba(255,255,255,0.6);stop-opacity:0.6" />
+    </linearGradient>
+  </defs>
+
+  <!-- Background Sky -->
+  <rect width="800" height="600" fill="url(#skyGradient)" />
+
+  <!-- Ground -->
+  <rect y="400" width="800" height="200" fill="#228B22" />
+
+  <!-- Trees (Dense Forest) -->
+  <g class="trees">
+    <!-- Tree 1 -->
+    <path d="M50 400 L70 300 Q80 250 90 200 Q100 150 110 200 Q120 250 130 300 L150 400 Z" fill="#006400">
+      <animateTransform attributeName="transform" type="rotate" from="0 100 400" to="2 100 400" dur="3s" repeatCount="indefinite" direction="alternate" />
+    </path>
+    <!-- Tree 2 -->
+    <path d="M150 400 L170 320 Q180 270 190 220 Q200 170 210 220 Q220 270 230 320 L250 400 Z" fill="#008000">
+      <animateTransform attributeName="transform" type="rotate" from="0 200 400" to="-2 200 400" dur="4s" repeatCount="indefinite" direction="alternate" />
+    </path>
+    <!-- Tree 3 -->
+    <path d="M250 400 L270 310 Q280 260 290 210 Q300 160 310 210 Q320 260 330 310 L350 400 Z" fill="#006400" />
+    <!-- Tree 4 -->
+    <path d="M350 400 L370 300 Q380 250 390 200 Q400 150 410 200 Q420 250 430 300 L450 400 Z" fill="#008000">
+      <animateTransform attributeName="transform" type="rotate" from="0 400 400" to="1 400 400" dur="3.5s" repeatCount="indefinite" direction="alternate" />
+    </path>
+    <!-- Tree 5 -->
+    <path d="M450 400 L470 320 Q480 270 490 220 Q500 170 510 220 Q520 270 530 320 L550 400 Z" fill="#006400" />
+    <!-- Tree 6 -->
+    <path d="M550 400 L570 310 Q580 260 590 210 Q600 160 610 210 Q620 260 630 310 L650 400 Z" fill="#008000" />
+  </g>
+
+  <!-- River -->
+  <path d="M0 450 Q200 420 400 450 Q600 480 800 450" fill="#00CED1">
+    <animate attributeName="d" values="M0 450 Q200 420 400 450 Q600 480 800 450;
+                                      M0 450 Q200 430 400 460 Q600 470 800 450;
+                                      M0 450 Q200 420 400 450 Q600 480 800 450" dur="5s" repeatCount="indefinite" />
+  </path>
+
+  <!-- Fog Layers -->
+  <rect y="350" width="800" height="250" fill="url(#fogGradient)">
+    <animate attributeName="opacity" values="0.5;0.7;0.5" dur="6s" repeatCount="indefinite" />
+  </rect>
+  <rect y="400" width="800" height="200" fill="url(#fogGradient)">
+    <animate attributeName="opacity" values="0.6;0.8;0.6" dur="8s" repeatCount="indefinite" />
+  </rect>
+
+  <!-- Clouds (Slower Movement, Edge-to-Edge Loop) -->
+  <g class="clouds">
+    <!-- Cloud 1 -->
+    <path d="M80 90 Q100 60 130 80 Q150 50 180 80 Q200 60 230 90 Q250 70 280 100 Q300 80 320 110 Q340 90 360 120" fill="#FFF" opacity="0.85">
+      <animateTransform attributeName="transform" type="translate" from="-400 0" to="900 0" dur="30s" repeatCount="indefinite" />
+    </path>
+    <!-- Cloud 2 -->
+    <path d="M350 140 Q370 110 400 130 Q420 100 450 130 Q470 110 500 140 Q520 120 550 150 Q570 130 590 160" fill="#FFF" opacity="0.75">
+      <animateTransform attributeName="transform" type="translate" from="-400 0" to="900 0" dur="35s" repeatCount="indefinite" />
+    </path>
+  </g>
+
+  <!-- Birds (Fly Off Screen) -->
+  <g class="birds">
+    <!-- Bird 1 -->
+    <path d="M150 150 Q165 135 180 150 Q195 165 210 150" fill="none" stroke="#000" stroke-width="2">
+      <animateTransform attributeName="transform" type="translate" from="-250 50" to="950 -100" dur="5s" repeatCount="indefinite" />
+      <animate attributeName="d" values="M150 150 Q165 135 180 150 Q195 165 210 150;
+                                        M150 150 Q165 145 180 150 Q195 155 210 150;
+                                        M150 150 Q165 140 180 150 Q195 160 210 150" dur="0.4s" repeatCount="indefinite" />
+    </path>
+    <!-- Bird 2 -->
+    <path d="M250 200 Q265 185 280 200 Q295 215 310 200" fill="none" stroke="#000" stroke-width="2">
+      <animateTransform attributeName="transform" type="translate" from="-250 70" to="950 -80" dur="4.5s" repeatCount="indefinite" />
+      <animate attributeName="d" values="M250 200 Q265 185 280 200 Q295 215 310 200;
+                                        M250 200 Q265 195 280 200 Q295 205 310 200;
+                                        M250 200 Q265 190 280 200 Q295 210 310 200" dur="0.4s" repeatCount="indefinite" />
+    </path>
+    <!-- Bird 3 -->
+    <path d="M100 180 Q115 165 130 180 Q145 195 160 180" fill="none" stroke="#000" stroke-width="2">
+      <animateTransform attributeName="transform" type="translate" from="-250 30" to="950 -120" dur="5.5s" repeatCount="indefinite" />
+      <animate attributeName="d" values="M100 180 Q115 165 130 180 Q145 195 160 180;
+                                        M100 180 Q115 175 130 180 Q145 185 160 180;
+                                        M100 180 Q115 170 130 180 Q145 190 160 180" dur="0.4s" repeatCount="indefinite" />
+    </path>
+  </g>
+</svg>

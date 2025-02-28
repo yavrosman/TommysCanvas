@@ -1,28 +1,21 @@
 <template>
   <div class="level-display">
     <div class="info">
-      <span class="level">Level: {{ gameStore.currentLevel }}</span>
-      <span class="score">Score: {{ gameStore.score }}</span>
-      <span class="next-level">
-        Next: {{ remainingPoints }} points
-      </span>
+      <div class="box level-box">
+        <span class="level">Level: {{ gameStore.currentLevel }}</span>
+      </div>
+      <div class="box score-box">
+        <span class="score">Score: {{ gameStore.score }}</span>
+      </div>
     </div>
   </div>
 </template>
 
 <script setup>
-import { computed } from 'vue';
 import { useGameStore } from '../stores/gameStore';
 
 const gameStore = useGameStore();
 
-const remainingPoints = computed(() => {
-  const currentLevelData = gameStore.currentLevelData;
-  if (currentLevelData) {
-    return currentLevelData.requiredScore - gameStore.progressToNextLevel;
-  }
-  return 0; // Fallback value if currentLevelData is undefined
-});
 </script>
 
 <style scoped>
@@ -31,20 +24,17 @@ const remainingPoints = computed(() => {
   top: 0;
   left: 0;
   width: 100%;
-  background-color: rgba(255, 255, 255, 0.6); /* Light opacity */
-  backdrop-filter: blur(5px);
-  padding: 8px 0;
   display: flex;
   justify-content: center;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   font-family: 'Comic Sans MS', cursive, sans-serif;
   z-index: 1000;
+  padding: 5px;
 }
 
 .info {
   display: flex;
-  justify-content: space-around;
-  width: 90%;
+  justify-content: space-between;
+  width: 100%;
   max-width: 500px;
 }
 
@@ -63,5 +53,24 @@ const remainingPoints = computed(() => {
 
 .next-level {
   color: #33cc33;
+}
+
+.box {
+  padding: 5px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 100px;
+}
+
+.level-box {
+  background-color: #ffe6cc;
+  border: 2px solid #ff6600;
+}
+
+.score-box {
+  background-color: #cce6ff;
+  border: 2px solid #0099ff;
 }
 </style>

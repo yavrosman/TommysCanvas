@@ -7,10 +7,11 @@ export const useGameStore = defineStore('game', {
     score: 0,
     progressToNextLevel: 0,
     levels: [
-      { level: 1, requiredScore: 10, targetSpawnInterval: 2000 },
-      { level: 2, requiredScore: 20, targetSpawnInterval: 1500 },
-      { level: 3, requiredScore: 30, targetSpawnInterval: 1200 },
+      { level: 1, requiredScore: 10, targetSpawnInterval: 4000, targetDuration: 3000, scene: 'forest.svg', size:100 },
+      { level: 2, requiredScore: 20, targetSpawnInterval: 4000, targetDuration: 3000, scene: 'desert.svg', size:90 },
+      { level: 3, requiredScore: 30, targetSpawnInterval: 3000, targetDuration: 2000, scene: 'ocean.svg', size:80 },
     ],
+    targets: [],
   }),
   getters: {
     currentLevelData: (state) => state.levels[state.currentLevel - 1],
@@ -27,6 +28,7 @@ export const useGameStore = defineStore('game', {
         this.nextLevel();
       }
     },
+
     nextLevel() {
       if (this.currentLevel < this.levels.length) {
         this.currentLevel++;
@@ -35,10 +37,17 @@ export const useGameStore = defineStore('game', {
         // Game completed scenario
       }
     },
+    
     resetGame() {
       this.currentLevel = 1;
       this.score = 0;
       this.progressToNextLevel = 0;
+    },
+
+    removeExpiredTarget(index) {
+      if (this.targets[index]) {
+        this.targets.splice(index, 1);
+      }
     },
   },
 });
