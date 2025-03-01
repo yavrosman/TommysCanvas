@@ -1,11 +1,11 @@
 <template>
-  <House ref="house" style="position: absolute; top: 40px; left: 0;" />
-  <canvas ref="canvas" :style="{ backgroundImage: `url(${sceneUrl})` }"></canvas>
+  <House ref="houseRef" style="position: absolute; top: 40px; left: 0; z-index: 2;" />
+  <img ref="backgroundRef" :src="sceneUrl" class="bg"/>
   <Target
     v-for="(target, index) in gameStore.targets"
     :key="index"
     :class="{ hit: target.isHit }"
-    :style="{ top: target.position.y + '%', left: target.position.x + '%', transform: target.isHit ? 'rotate(360deg)' : 'none' }"
+    :style="{ top: target.position.y + '%', left: target.position.x + '%'}"
     @click="handleTargetHit(index)"
   />
 </template>
@@ -15,12 +15,13 @@ import { ref, onMounted, watch, onUnmounted, computed } from 'vue';
 import { useGameStore } from '../stores/gameStore';
 import Target from '../components/Target.vue';
 import House from '../components/ui/House.vue';
+import { calculateTargetMovement, applyTargetMovement } from '../scripts/target';
 
 const gameStore = useGameStore();
 let targetInterval = null;
 
 const houseRef = ref(null);
-const canvasRef = ref(null);
+const backgroundRef = ref(null);
 
 const sceneUrl = computed(() => {
   const url = new URL(`../assets/scenes/${gameStore.currentLevelData.scene}`, import.meta.url).href;
@@ -42,34 +43,21 @@ const handleTargetHit = (index) => {
   const target = gameStore.targets[index];
   target.isHit = true;
 
-  // Ensure the house and canvas elements are available
-  if (!houseRef.value || !canvasRef.value) return;
-
-  const houseElement = houseRef.value;
-  const houseRect = houseElement.getBoundingClientRect();
-  const canvasElement = canvasRef.value;
-  const canvasRect = canvasElement.getBoundingClientRect();
-
-  const targetElement = canvasElement.querySelectorAll('.target')[index];
-  if (!targetElement) return;
-  const targetRect = targetElement.getBoundingClientRect();
-
-  const deltaX = houseRect.left - targetRect.left;
-  const deltaY = houseRect.top - targetRect.top;
-
-  target.position.x = ((houseRect.left - canvasRect.left) / canvasRect.width) * 100;
-  target.position.y = ((houseRect.top - canvasRect.top) / canvasRect.height) * 100;
-
+  const movement = calculateTargetMovement(houseRef, backgroundRef, index);
+  if (!movement) return;
+  const duration = applyTargetMovement(target, movement);
+  
+  gameStore.incrementScore(1);
   setTimeout(() => {
     gameStore.targets.splice(index, 1);
-  }, 1000); // Override current target's despawn time to 1 second after hit
+  }, duration * 1000);
 };
 
 const setupLevel = () => {
   if (targetInterval) clearInterval(targetInterval);
   gameStore.targets = [];
 
-  spawnTarget(); // initial target spawn
+  spawnTarget();
 
   targetInterval = setInterval(
     spawnTarget,
@@ -87,18 +75,19 @@ onUnmounted(() => clearInterval(targetInterval));
 </script>
 
 <style scoped>
-canvas {
-  display: block;
+.bg {
+  position: absolute;
   width: 100%;
   height: 100%;
-  background-size: cover;
-  background-position: center;
+  object-fit: cover;
+  top: 0;
+  left: 0;
 }
 .target {
   position: absolute;
-  transition: transform 1s linear, top 1s linear, left 1s linear;
+  transition: transform var(--transition-duration, 0.5s) linear, top var(--transition-duration, 0.5s) linear, left var(--transition-duration, 0.5s) linear;
 }
 .target.hit {
-  transform: rotate(360deg);
+  transform: rotate(360deg) scale(0);
 }
 </style>
